@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibrahim Al-jeddawi | Software Developer & Network Administrator</title>
+    <link rel="stylesheet" href="assets/css/output.min.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#06b6d4',
+                            blue: '#3b82f6',
+                            emerald: '#10b981',
+                            dark: '#030712',
+                            card: '#0f172a'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(6, 182, 212, 0.2), 0 0 10px rgba(6, 182, 212, 0.2)' },
+                            '100%': { boxShadow: '0 0 15px rgba(6, 182, 212, 0.6), 0 0 25px rgba(6, 182, 212, 0.4)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+     -->
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    
+    <script src="assets/js/alpinejs.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .tech-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        .glow-orb {
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    darkMode: true, 
+    mobileMenuOpen: false, 
+    activeTab: 'all',
+    selectedProject: null,
+    terminalOpen: true,
+    terminalInput: '',
+    terminalLog: [
+        { type: 'input', text: 'systemctl status portfolio.service' },
+        { type: 'output', text: '● portfolio.service - Ibrahim Al-jeddawi Portfolio' },
+        { type: 'output', text: '   Loaded: loaded (/etc/systemd/system/portfolio.service; enabled)' },
+        { type: 'output', text: '   Active: active (running) since Wed 2025-06-04' },
+        { type: 'output', text: '   Main PID: 2024038 (nginx)' },
+        { type: 'output', text: '   Status: Full-Stack & Network engines fully operational.' },
+        { type: 'output', text: 'Type \'help\' to see list of network terminal actions!' }
+    ]
+}" :class="darkMode ? 'dark' : ''">
+
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <canvas id="networkCanvas" class="w-full h-full"></canvas>
+    </div>
+
+    <div class="fixed top-1/4 left-1/4 w-[400px] h-[400px] bg-brand-cyan rounded-full glow-orb z-0"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-blue rounded-full glow-orb z-0"></div>
+    <div class="fixed top-2/3 left-1/3 w-[300px] h-[300px] bg-brand-emerald rounded-full glow-orb z-0"></div>
+
+    <div class="relative z-10 tech-grid min-h-screen flex flex-col">
+        
+        <header class="sticky top-0 z-50 bg-brand-dark/75 backdrop-blur-lg border-b border-white/10 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+                
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-blue flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        IA
+                    </div>
+                    <div>
+                        <span class="block text-white font-bold text-lg leading-none tracking-tight">Ibrahim Mohammed</span>
+                        <span class="text-brand-cyan font-mono text-xs tracking-widest">@algedawy89</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                    <a href="#home" class="hover:text-brand-cyan transition-colors duration-200">Home</a>
+                    <a href="#about" class="hover:text-brand-cyan transition-colors duration-200">About</a>
+                    <a href="#skills" class="hover:text-brand-cyan transition-colors duration-200">Skills</a>
+                    <a href="#projects" class="hover:text-brand-cyan transition-colors duration-200">Projects</a>
+                    <a href="#education" class="hover:text-brand-cyan transition-colors duration-200">Education</a>
+                    <a href="#contact" class="px-4 py-2 bg-gradient-to-r from-brand-cyan to-brand-blue text-white rounded-lg font-semibold hover:opacity-90 shadow-lg shadow-brand-cyan/20 transition-all duration-300">Contact Me</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                        Available for Work
+                    </span>
+
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-300 hover:text-white p-2 rounded-lg hover:bg-white/5 focus:outline-none transition-colors duration-200">
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-lg' : 'fa-bars text-lg'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div x-show="mobileMenuOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-4"
+                 class="md:hidden bg-brand-dark/95 border-b border-white/10 backdrop-blur-xl absolute top-full left-0 w-full py-4 px-6 space-y-4"
+                 style="display: none;">
+                <a href="#home" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-brand-cyan py-2 text-lg border-b border-white/5">Home</a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-brand-cyan py-2 text-lg border-b border-white/5">About</a>
+                <a href="#skills" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-brand-cyan py-2 text-lg border-b border-white/5">Skills</a>
+                <a href="#projects" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-brand-cyan py-2 text-lg border-b border-white/5">Projects</a>
+                <a href="#education" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-brand-cyan py-2 text-lg border-b border-white/5">Education</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block text-center px-4 py-3 bg-gradient-to-r from-brand-cyan to-brand-blue text-white rounded-lg font-bold">Hire Me</a>
+            </div>
+        </header>
+
+        <section id="home" class="relative flex-grow flex items-center justify-center py-16 md:py-32 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left z-10">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan text-sm font-semibold">
+                        <i class="fa-solid fa-laptop-code"></i>
+                        <span>Welcome to My Digital Domain</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        Ibrahim Mohammed <br class="hidden sm:inline">
+                        <span class="bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-emerald bg-clip-text text-transparent">Al-jeddawi</span>
+                    </h1>
+
+                    <div class="flex items-center justify-center lg:justify-start space-x-2 font-mono text-lg sm:text-2xl text-gray-400">
+                        <span class="text-brand-cyan font-bold">&gt;_</span>
+                        <span id="typewriter" class="font-medium text-white"></span>
+                        <span class="animate-pulse font-bold text-brand-cyan">|</span>
+                    </div>
+
+                    <p class="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 leading-relaxed">
+                        A highly motivated Software Engineering graduate with a proven track record of constructing high-impact applications & secure local environments. Delivering enterprise-grade systems utilizing 
+                        <span class="text-white font-medium">Django</span>, 
+                        <span class="text-white font-medium">React</span>, and 
+                        <span class="text-white font-medium">Flutter</span> combined with expert 
+                        <span class="text-white font-medium">MikroTik network architecture</span>.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-blue text-white font-bold hover:shadow-xl hover:shadow-brand-cyan/20 hover:scale-105 transition-all duration-300 text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Explore Projects
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10 hover:border-white/25 transition-all duration-300 text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Get in Touch
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 pt-6 max-w-md mx-auto lg:mx-0">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+                            <p class="text-2xl font-bold text-white">4+</p>
+                            <p class="text-xs text-gray-400">Production Apps</p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+                            <p class="text-2xl font-bold text-brand-cyan">20+</p>
+                            <p class="text-xs text-gray-400">Tech Stack Tools</p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+                            <p class="text-2xl font-bold text-brand-emerald">97%</p>
+                            <p class="text-xs text-gray-400">Grad. Project Score</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 w-full z-10" x-show="terminalOpen" x-transition>
+                    <div class="w-full rounded-2xl bg-brand-card/90 border border-white/10 shadow-2xl shadow-cyan-950/40 overflow-hidden">
+                        <div class="bg-[#0b101b] px-4 py-3 flex items-center justify-between border-b border-white/5">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500 block"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500 block"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500 block"></span>
+                            </div>
+                            <span class="text-xs font-mono text-gray-500 flex items-center gap-1.5">
+                                <i class="fa-solid fa-terminal text-brand-cyan"></i>
+                                bash - algedawy89@routeros
+                            </span>
+                            <button @click="terminalOpen = false" class="text-gray-500 hover:text-white transition-colors duration-200">
+                                <i class="fa-solid fa-minus text-xs"></i>
+                            </button>
+                        </div>
+
+                        <!-- Terminal Monitor Interface -->
+                        <div class="p-5 font-mono text-xs sm:text-sm h-72 overflow-y-auto space-y-2 flex flex-col" id="terminal-screen">
+                            <div class="text-gray-500 mb-2"># System initialized. Interactive Console active.</div>
+                            
+                            <!-- Log iteration -->
+                            <template x-for="(log, idx) in terminalLog" :key="idx">
+                                <div class="break-words">
+                                    <template x-if="log.type === 'input'">
+                                        <div>
+                                            <span class="text-brand-emerald">algedawy89@ibb-it-node:~$</span> 
+                                            <span class="text-white" x-text="log.text"></span>
+                                        </div>
+                                    </template>
+                                    <template x-if="log.type === 'output'">
+                                        <div class="text-gray-300 pl-4 border-l border-brand-cyan/20 whitespace-pre-wrap" x-text="log.text"></div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <!-- User Input Area -->
+                            <form @submit.prevent="
+                                if(terminalInput.trim() !== '') {
+                                    const input = terminalInput;
+                                    terminalLog.push({ type: 'input', text: input });
+                                    terminalInput = '';
+                                    
+                                    // Process basic commands locally
+                                    const cmd = input.toLowerCase().trim();
+                                    let out = '';
+                                    if(cmd === 'help') {
+                                        out = 'Available commands:\n  about     - View Ibrahim\'s summary\n  skills    - List core competencies\n  contact   - Display key contact methods\n  ping      - Check router connectivity\n  clear     - Clean the screen';
+                                    } else if(cmd === 'about') {
+                                        out = 'Ibrahim Al-jeddawi: Graduated Computer Science (Ibb Uni, 82%). Full-stack Developer specialized in Django, React & Flutter, plus experienced RouterOS administrator.';
+                                    } else if(cmd === 'skills') {
+                                        out = 'Programming: C#, Python, Dart, PHP, JS\nFrameworks: Flutter, Django, ASP.Core , ExpressJS, React\nNetworks: MikroTik RouterOS Setup, Routing, LAN Configuration';
+                                    } else if(cmd === 'contact') {
+                                        out = 'Email: algedawy89@gmail.com\nPhone: +967 772024038\nGitHub: github.com/algedawy89\nLocation: Ibb, Yemen';
+                                    } else if(cmd === 'ping') {
+                                        out = 'PING 192.168.88.1 (192.168.88.1) 56(84) bytes of data.\n64 bytes from 192.168.88.1: icmp_seq=1 ttl=64 time=1.02 ms\n64 bytes from 192.168.88.1: icmp_seq=2 ttl=64 time=0.98 ms\n\n--- 192.168.88.1 ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss';
+                                    } else if(cmd === 'clear') {
+                                        terminalLog = [];
+                                        out = 'Terminal cleared. Type help.';
+                                    } else {
+                                        out = 'Command not found: ' + input + '. Type \'help\' for options.';
+                                    }
+                                    if (out) {
+                                        terminalLog.push({ type: 'output', text: out });
+                                    }
+                                    $nextTick(() => {
+                                        const el = document.getElementById('terminal-screen');
+                                        el.scrollTop = el.scrollHeight;
+                                    });
+                                }
+                            " class="flex items-center pt-2">
+                                <span class="text-brand-emerald mr-2">algedawy89@ibb-it-node:~$</span>
+                                <input type="text" x-model="terminalInput" class="bg-transparent text-white focus:outline-none flex-grow" placeholder="type 'help' or command..." autofocus>
+                            </form>
+                        </div>
+                        
+                        <!-- Mini command assistance bar -->
+                        <div class="bg-brand-dark px-4 py-2 flex flex-wrap gap-2 items-center border-t border-white/5">
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Quick Commands:</span>
+                            <button @click="terminalLog.push({ type: 'input', text: 'about' }); terminalLog.push({ type: 'output', text: 'Ibrahim Al-jeddawi: Graduated Computer Science (Ibb Uni, 82%). Full-stack Developer specialized in Django, React & Flutter, plus experienced RouterOS administrator.' })" class="text-[11px] bg-white/5 hover:bg-brand-cyan/20 text-gray-300 rounded px-2 py-0.5 border border-white/10 transition-all">about</button>
+                            <button @click="terminalLog.push({ type: 'input', text: 'skills' }); terminalLog.push({ type: 'output', text: 'Programming: C#, Python, Dart, PHP, JS\nFrameworks: Flutter, Django, ASP.Core , ExpressJS, React\nNetworks: MikroTik RouterOS Setup' })" class="text-[11px] bg-white/5 hover:bg-brand-cyan/20 text-gray-300 rounded px-2 py-0.5 border border-white/10 transition-all">skills</button>
+                            <button @click="terminalLog.push({ type: 'input', text: 'ping' }); terminalLog.push({ type: 'output', text: 'PING 192.168.88.1 (192.168.88.1): 64 bytes... Success (0.98ms)' })" class="text-[11px] bg-white/5 hover:bg-brand-cyan/20 text-gray-300 rounded px-2 py-0.5 border border-white/10 transition-all">ping router</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section id="about" class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 border-t border-white/5 bg-brand-dark/30">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-base text-brand-cyan font-semibold tracking-wide uppercase">Profile Overview</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Who is Ibrahim Al-jeddawi?</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    
+                    <!-- About Text Box -->
+                    <div class="lg:col-span-7 bg-brand-card/45 border border-white/5 rounded-2xl p-6 sm:p-8 backdrop-blur-md space-y-6">
+                        <div class="flex items-center space-x-3 text-brand-cyan">
+                            <i class="fa-solid fa-quote-left text-2xl"></i>
+                            <span class="font-bold text-lg">Professional Summary</span>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed text-base sm:text-lg">
+                            A highly motivated Computer Science & Information Technology graduate with a strong academic record and a proven track record of developing impactful applications. Demonstrates robust full-stack development capabilities across mobile, desktop, and web environments using <span class="text-white font-medium">Flutter, C#, Django, and React</span>.
+                        </p>
+                        <p class="text-gray-300 leading-relaxed text-base sm:text-lg">
+                            Combines solid programming expertise with practical knowledge in <span class="text-white font-medium">network administration, system configuration, and MikroTik RouterOS</span>. Adept at transforming complex requirements into clean, efficient code and eager to contribute to a forward-thinking development team.
+                        </p>
+
+                        <!-- Basic details grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-500 uppercase">Location</span>
+                                    <span class="text-white font-medium">Ibb, Yemen</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-500 uppercase">Degree</span>
+                                    <span class="text-white font-medium">Bachelor in CS & IT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soft Skills & Languages -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <!-- Soft Skills Card -->
+                        <div class="bg-brand-card/45 border border-white/5 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                            <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-brain text-brand-emerald"></i>
+                                Soft Skills & Capabilities
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200">
+                                    <p class="text-white font-semibold text-sm">Complex Problem Solving</p>
+                                    <p class="text-xs text-gray-400 mt-1">Critical thinking and complex software troubleshooting capabilities.</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200">
+                                    <p class="text-white font-semibold text-sm">Rapid Tech Adaptation</p>
+                                    <p class="text-xs text-gray-400 mt-1">Exceptional self-learning agility to acquire new frameworks and architectures quickly.</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200">
+                                    <p class="text-white font-semibold text-sm">Agile Collaboration</p>
+                                    <p class="text-xs text-gray-400 mt-1">Effective, dynamic team integration and clear engineering communications.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Languages Card -->
+                        <div class="bg-brand-card/45 border border-white/5 rounded-2xl p-6 backdrop-blur-md">
+                            <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-language text-brand-blue"></i>
+                                Languages
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white/5 p-4 rounded-xl text-center border border-white/5">
+                                    <span class="block text-white font-bold">Arabic</span>
+                                    <span class="text-brand-emerald text-sm font-medium">Native Language</span>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-xl text-center border border-white/5">
+                                    <span class="block text-white font-bold">English</span>
+                                    <span class="text-brand-cyan text-sm font-medium">Very Good</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNICAL SKILLS SECTION -->
+        <section id="skills" class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-base text-brand-cyan font-semibold tracking-wide uppercase">Core Competencies</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">My Technical Arsenal</p>
+                    <p class="text-gray-400 mt-2 text-sm sm:text-base">Categorized collection of tools, technologies, and architectures I leverage daily.</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <!-- Skill Categories Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Languages -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-cyan/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
+                                <i class="fa-solid fa-code text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">Programming Languages</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>C# (.NET / WinForms / ASP)</span>
+                                    <span class="font-mono text-brand-cyan">90%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-cyan h-full rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Python (Django / Scripting)</span>
+                                    <span class="font-mono text-brand-cyan">88%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-cyan h-full rounded-full" style="width: 88%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Dart (Flutter Mobile / Web)</span>
+                                    <span class="font-mono text-brand-cyan">85%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-cyan h-full rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>JavaScript (ES6+ / Node)</span>
+                                    <span class="font-mono text-brand-cyan">82%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-cyan h-full rounded-full" style="width: 82%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>PHP</span>
+                                    <span class="font-mono text-brand-cyan">75%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-cyan h-full rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Frameworks & Libs -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-blue/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+                                <i class="fa-solid fa-cubes text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">Frameworks & Libraries</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Flutter</span>
+                                    <span class="font-mono text-brand-blue">88%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-blue h-full rounded-full" style="width: 88%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Django</span>
+                                    <span class="font-mono text-brand-blue">85%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-blue h-full rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>React + TypeScript</span>
+                                    <span class="font-mono text-brand-blue">80%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-blue h-full rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>ASP.Core </span>
+                                    <span class="font-mono text-brand-blue">78%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-blue h-full rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>ExpressJS</span>
+                                    <span class="font-mono text-brand-blue">75%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-blue h-full rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Networks & Systems -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-emerald/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-brand-emerald/10 flex items-center justify-center text-brand-emerald">
+                                <i class="fa-solid fa-network-wired text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">Networks & Systems</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>MikroTik RouterOS Configuration</span>
+                                    <span class="font-mono text-brand-emerald">92%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-emerald h-full rounded-full" style="width: 92%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Network Fundamentals & Routing</span>
+                                    <span class="font-mono text-brand-emerald">88%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-emerald h-full rounded-full" style="width: 88%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Linux Basics & Scripting</span>
+                                    <span class="font-mono text-brand-emerald">78%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-emerald h-full rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Windows Server Administration</span>
+                                    <span class="font-mono text-brand-emerald">82%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-brand-emerald h-full rounded-full" style="width: 82%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Databases & Management -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-cyan/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
+                                <i class="fa-solid fa-database text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">Data & Databases</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-cyan/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">PostgreSQL</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-cyan/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">MySQL</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-cyan/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">SQLite</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-cyan/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">DB Schema Design</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-cyan/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Query Optimization</span>
+                        </div>
+                    </div>
+
+                    <!-- Tools & Architecture -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-blue/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+                                <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">Tools & Methodology</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-blue/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Git & GitHub</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-blue/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Docker</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-blue/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">OOP </span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-blue/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">MVC / REST APIs</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-blue/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Trello / Agile</span>
+                        </div>
+                    </div>
+
+                    <!-- Support & Ops -->
+                    <div class="bg-brand-card/50 border border-white/5 rounded-2xl p-6 hover:border-brand-emerald/30 transition-all duration-300">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-emerald/10 flex items-center justify-center text-brand-emerald">
+                                <i class="fa-solid fa-headset text-xl"></i>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">IT Support & Ops</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-emerald/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Software Troubleshooting</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-emerald/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">File System Config</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-emerald/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Backup & Disaster Recovery</span>
+                            <span class="px-3 py-1 bg-white/5 hover:bg-brand-emerald/10 rounded-lg text-sm text-gray-300 border border-white/5 transition-all">Responsive Web UI</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SHOWCASE SECTION -->
+        <section id="projects" class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 border-t border-white/5 bg-brand-dark/20">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-base text-brand-cyan font-semibold tracking-wide uppercase">Portfolio Projects</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Featured Engineering Work</p>
+                    <p class="text-gray-400 mt-2 text-sm sm:text-base">Demonstrating end-to-end full stack execution and practical networking integrations.</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <!-- Interactive Filters -->
+                <div class="flex flex-wrap justify-center gap-3 mb-12">
+                    <button @click="activeTab = 'all'" :class="activeTab === 'all' ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25' : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300">All Systems</button>
+                    <button @click="activeTab = 'web'" :class="activeTab === 'web' ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25' : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300">Web Platforms</button>
+                    <button @click="activeTab = 'mobile'" :class="activeTab === 'mobile' ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25' : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300">Mobile Applications</button>
+                    <button @click="activeTab = 'network'" :class="activeTab === 'network' ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/25' : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300">Network Tech</button>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Project 1: Surfey -->
+                    <div x-show="activeTab === 'all' || activeTab === 'web'" x-transition class="bg-brand-card/70 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-cyan/30 hover:scale-[1.01] transition-all duration-300 group flex flex-col justify-between">
+                        <div>
+                            <!-- Header Info -->
+                            <div class="p-6 sm:p-8 pb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan rounded-lg text-xs font-bold uppercase tracking-wider">Graduation Project</span>
+                                    <span class="text-xs text-gray-400 font-bold font-mono">2024-2025</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-cyan transition-colors">"Surfey" Social Platform</h3>
+                                <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+                                    A robust, comprehensive social web platform built specifically for researchers and public institutes to design dynamic surveys, gather massive public opinions, and compile real-time structural analysis of data.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Details / Technologies -->
+                        <div class="p-6 sm:p-8 pt-0 space-y-6">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Django (Back-end)</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">React + TS (Front-end)</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">REST APIs</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">PostgreSQL</span>
+                            </div>
+                            <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                                <button @click="selectedProject = {
+                                    title: 'Surfey Platform',
+                                    subtitle: 'Social Survey & Analytical Engine',
+                                    desc: 'Graduation project achieving extraordinary grades: 96% in the first semester and 97% in the second semester. Designed to handle large data-sets of public feedback and represent it graphically in an intuitive interface.',
+                                    tech: ['Django', 'React', 'TypeScript', 'REST APIs', 'PostgreSQL', 'Tailwind CSS'],
+                                                   imgdesc:[
+                                   '1',
+                                   '2',
+                                   '3',
+                                   '4',
+                                   '5',
+                                   '6',
+                                   '7',
+                                   '8',
+
+
+                                   ],
+                                    images: [
+                                    'assets/img/surfey/111.png',
+                                    'assets/img/surfey/222.png',
+                                    'assets/img/surfey/333.png',
+                                    'assets/img/surfey/444.png',
+                                    'assets/img/surfey/555.png',
+                                    'assets/img/surfey/777.png',
+                                    'assets/img/surfey/888.png',
+                                    'assets/img/surfey/999.png',
+                                    'assets/img/surfey/1010.png',
+                                    'assets/img/surfey/1111.png',
+                                    'assets/img/surfey/1010101.png',
+
+
+
+                                    'assets/img/surfey/22.png',
+                                    'assets/img/surfey/33.png', 
+                                    'assets/img/surfey/44.png', 
+                                    'assets/img/surfey/55.png', 
+                                    'assets/img/surfey/66.png', 
+                                    'assets/img/surfey/77.png', 
+                                    'assets/img/surfey/88.png', 
+                                    'assets/img/surfey/iii.png', 
+                                    'assets/img/surfey/ccc.png', 
+                                    'assets/img/surfey/ddd.png', 
+                                    'assets/img/surfey/eee.png', 
+
+                                    'assets/img/surfey/ppp.png', 
+                                    'assets/img/surfey/qqq.png', 
+                                    'assets/img/surfey/sss.png', 
+                                    'assets/img/surfey/vvv.png', 
+                                    'assets/img/surfey/rrr.png', 
+                                    'assets/img/surfey/ooo.png', 
+                                    'assets/img/surfey/lll.png', 
+                                    'assets/img/surfey/ggg.png',
+                                    'assets/img/surfey/hhh.png', 
+                                    'assets/img/surfey/fff.png', 
+                                    'assets/img/surfey/1.png',
+                                    'assets/img/surfey/2.png',
+                                    'assets/img/surfey/3.png', 
+                                    'assets/img/surfey/4.png', 
+                                    'assets/img/surfey/5.png',
+                                    'assets/img/surfey/6.png',
+                                    'assets/img/surfey/7.png',
+                                    'assets/img/surfey/8.png',
+                                    'assets/img/surfey/9.png', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+
+],
+                                    impact: 'Helps academic researchers and governmental/non-profit institutions rapidly sample opinions and format clean graphical reports.'
+                                }" class="text-brand-cyan text-sm font-semibold hover:underline flex items-center gap-1.5">
+                                    View Architecture <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                                </button>
+                                <span class="text-emerald-400 text-xs font-bold flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-check"></i> 97% Grade Academic Excellence
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Estraha View -->
+                    <div x-show="activeTab === 'all' || activeTab === 'web' || activeTab === 'network'" x-transition class="bg-brand-card/70 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-cyan/30 hover:scale-[1.01] transition-all duration-300 group flex flex-col justify-between">
+                        <div>
+                            <div class="p-6 sm:p-8 pb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-lg text-xs font-bold uppercase tracking-wider">Multimedia Streaming</span>
+                                    <span class="text-xs text-gray-400 font-bold font-mono">Live</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-cyan transition-colors">"Estraha View" Platform</h3>
+                                <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+                                    A localized media hosting and high-bandwidth streaming portal engineered for network operators. Allows hosters to store and stream high-definition movies, series, and local files directly to network clients seamlessly.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 pt-0 space-y-6">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Django </span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Django Templates</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Tailwindcss</span>
+                                <!-- <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Local Cache Systems</span> -->
+                            </div>
+                            <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                                <button @click="selectedProject = {
+                                    title: 'Estraha View',
+                                    subtitle: 'LAN Media Center Portal',
+                                    desc: 'A premium media-hosting and streaming solution for local ISPs and network operators. Turn your local network into a private entertainment hub, allowing users to stream high-quality video instantly without draining your external internet bandwidth.',
+                                    tech: ['Django', 'DjangoTemplates', 'TailwindCss', 'MySql'],
+                                   imgdesc:[
+                                   '1',
+                                   '2',
+                                   '3',
+                                   '4',
+                                   '5',
+                                   '6',
+                                   '7',
+                                   '8',
+
+
+                                   ],
+                                    images: [
+                                    'assets/img/estraha/1.png', 
+                                    'assets/img/estraha/2.png',
+                                    'assets/img/estraha/3.png', 
+                                    'assets/img/estraha/4.png', 
+                                    'assets/img/estraha/5.png', 
+                                    'assets/img/estraha/6.png', 
+                                    'assets/img/estraha/7.png', 
+                                    'assets/img/estraha/8.png', 
+
+],
+                                    
+                                    impact: 'Significantly reduces bandwidth overhead for network owners by caching multimedia within the LAN architecture.'
+                                }" class="text-brand-cyan text-sm font-semibold hover:underline flex items-center gap-1.5">
+                                    View Architecture <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                                </button>
+                                <span class="text-gray-400 text-xs font-bold">Network Local Engine</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Byasak App -->
+                    <div x-show="activeTab === 'all' || activeTab === 'mobile'" x-transition class="bg-brand-card/70 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-cyan/30 hover:scale-[1.01] transition-all duration-300 group flex flex-col justify-between">
+                        <div>
+                            <div class="p-6 sm:p-8 pb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 bg-brand-blue/10 border border-brand-blue/20 text-brand-blue rounded-lg text-xs font-bold uppercase tracking-wider">Financial Tech</span>
+                                    <span class="text-xs text-gray-400 font-bold font-mono">Mobile App</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-cyan transition-colors">"Byasak" Ledger App</h3>
+                                <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+                                    A clean, minimalist mobile application for tracking private personal transactions, debt relationships, and rapid billing updates. It serves as an intuitive localized mobile ledger.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 pt-0 space-y-6">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Flutter</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Dart</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">SQLite </span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Offline First Architecture</span>
+                            </div>
+                            <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                                <button @click="selectedProject = {
+                                    title: 'Byasak Financial Ledger',
+                                    subtitle: 'Offline-First Debt & Ledger Management',
+                                    desc: 'A minimalist mobile app designed to help users log debts and financial handshakes. Engineered with local encrypted databases ensuring users private financial histories remain safe on device hardware.',
+                                   
+                                   images:[
+                                   
+                                    'assets/img/byasak/1.jpg', 
+                                    'assets/img/byasak/2.jpg', 
+
+                                    'assets/img/byasak/111.jpg', 
+                                    'assets/img/byasak/222.jpg', 
+                                    'assets/img/byasak/333.jpg', 
+                                    'assets/img/byasak/444.jpg', 
+                                    'assets/img/byasak/555.jpg',
+                                    'assets/img/byasak/666.jpg', 
+                                    'assets/img/byasak/777.jpg', 
+
+
+                                    'assets/img/byasak/3.jpg', 
+                                    'assets/img/byasak/4.jpg', 
+                                    'assets/img/byasak/5.jpg',
+                                    'assets/img/byasak/6.jpg', 
+                                    'assets/img/byasak/7.jpg', 
+                                    'assets/img/byasak/5.jpg', 
+
+
+                                   
+                                   ],
+                                    tech: ['Flutter', 'Dart', 'SQLite DB', 'State Management (Provider/Bloc)'],
+                                    impact: 'Provides clean financial tracking for small merchants and everyday users without complex accounting configurations.'
+                                }" class="text-brand-cyan text-sm font-semibold hover:underline flex items-center gap-1.5">
+                                    View Architecture <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                                </button>
+                                <span class="text-brand-blue text-xs font-bold"><i class="fa-solid fa-mobile-screen"></i> Android & iOS Ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: Network Sales -->
+                    <div x-show="activeTab === 'all' || activeTab === 'mobile' || activeTab === 'network'" x-transition class="bg-brand-card/70 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-cyan/30 hover:scale-[1.01] transition-all duration-300 group flex flex-col justify-between">
+                        <div>
+                            <div class="p-6 sm:p-8 pb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-lg text-xs font-bold uppercase tracking-wider">ISP Automation</span>
+                                    <span class="text-xs text-gray-400 font-bold font-mono">Mobile App</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-cyan transition-colors">Wi-Fi Card Sales System</h3>
+                                <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+                                    An essential utility app engineered for local Wi-Fi provider hubs. Automatically tracks, inventories, issues, and audits card codes and subscriptions distributed on localized sub-networks.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 pt-0 space-y-6">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Flutter</span>
+                                <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">Dart</span>
+                                <!-- <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">REST API Integration</span> -->
+                                <!-- <span class="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-300">MikroTik User-Manager sync</span> -->
+                            </div>
+                            <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                                <button @click="selectedProject = {
+                                    title: 'Wi-Fi Network Card Sales Automator',
+                                    subtitle: 'Yemeni local ISP Operations Management',
+                                    desc: 'An automated application linking directly to database nodes managing cards and voucher values. Designed to prevent security breaches and inventory losses by monitoring distribution, activation rates, and income streams.',
+                                    tech: ['Flutter Mobile', 'Dart', 'HTTP/REST Client API', 'Local Storage Encryption'],
+                                     images:[
+                                   
+                                    'assets/img/cards/1.jpg', 
+                                    'assets/img/cards/2.jpg', 
+
+                                   
+
+                                    'assets/img/cards/3.jpg', 
+                                    'assets/img/cards/4.jpg', 
+                                    'assets/img/cards/5.jpg',
+                                    'assets/img/cards/6.jpg', 
+                                    'assets/img/cards/7.jpg', 
+                                    'assets/img/cards/8.jpg',
+                                    'assets/img/cards/9.jpg', 
+                                    'assets/img/cards/10.jpg', 
+                                    'assets/img/cards/11.jpg', 
+
+
+
+                                   
+                                   ],
+                                    impact: 'Helps local Wi-Fi providers scale their business by tracking active card inventory and identifying revenue leakage in real-time.'
+                                }" class="text-brand-cyan text-sm font-semibold hover:underline flex items-center gap-1.5">
+                                    View Architecture <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                                </button>
+                                <span class="text-brand-emerald text-xs font-bold flex items-center gap-1"><i class="fa-solid fa-bolt"></i> Operations Automation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION TIMELINE SECTION -->
+        <section id="education" class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-base text-brand-cyan font-semibold tracking-wide uppercase">Academic Milestone</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Education & Certification</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <!-- Timeline wrapper -->
+                <div class="relative max-w-3xl mx-auto">
+                    <!-- Vertical Line -->
+                    <div class="absolute left-4 sm:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-cyan via-brand-blue to-transparent transform sm:-translate-x-1/2"></div>
+                    
+                    <div class="space-y-12">
+                        
+                        <!-- Timeline Item 1: Bachelor Degree -->
+                        <div class="relative flex flex-col sm:flex-row items-start sm:items-center">
+                            <!-- Bullet -->
+                            <div class="absolute left-4 sm:left-1/2 w-6 h-6 rounded-full bg-brand-dark border-4 border-brand-cyan transform -translate-x-1/2 z-10 flex items-center justify-center">
+                                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            </div>
+                            
+                            <!-- Card (Right on large screens) -->
+                            <div class="ml-12 sm:ml-0 sm:w-1/2 sm:pl-8 sm:order-2">
+                                <div class="bg-brand-card/60 border border-white/5 p-6 rounded-2xl hover:border-brand-cyan/20 transition-all duration-300">
+                                    <span class="text-xs text-brand-cyan font-mono font-bold block mb-1">2021 – 2025</span>
+                                    <h4 class="text-lg font-bold text-white">Bachelor's Degree in Computer Science & IT</h4>
+                                    <p class="text-brand-cyan font-medium text-sm mt-1">Ibb University, Yemen</p>
+                                    
+                                    <div class="mt-4 space-y-2 border-t border-white/5 pt-4">
+                                        <div class="flex items-center justify-between text-xs text-gray-400">
+                                            <span>Cumulative Grade</span>
+                                            <span class="text-white font-bold bg-white/5 px-2 py-0.5 rounded">82% (Very Good)</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-xs text-gray-400">
+                                            <span>Grad. Project Sem-1</span>
+                                            <span class="text-brand-emerald font-bold bg-brand-emerald/10 px-2 py-0.5 rounded">96%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-xs text-gray-400">
+                                            <span>Grad. Project Sem-2</span>
+                                            <span class="text-brand-emerald font-bold bg-brand-emerald/10 px-2 py-0.5 rounded">97%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Label (Left on large screens) -->
+                            <div class="hidden sm:block sm:w-1/2 pr-8 text-right sm:order-1">
+                                <h5 class="text-white font-bold text-lg">Academic Foundation</h5>
+                                <p class="text-gray-400 text-sm mt-1">Rigorous theoretical and algorithmic foundation combined with production software training.</p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2: English Diploma -->
+                        <div class="relative flex flex-col sm:flex-row items-start sm:items-center">
+                            <!-- Bullet -->
+                            <div class="absolute left-4 sm:left-1/2 w-6 h-6 rounded-full bg-brand-dark border-4 border-brand-blue transform -translate-x-1/2 z-10 flex items-center justify-center">
+                                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            </div>
+                            
+                            <!-- Card (Left on large screens) -->
+                            <div class="ml-12 sm:ml-0 sm:w-1/2 sm:pr-8 sm:order-1">
+                                <div class="bg-brand-card/60 border border-white/5 p-6 rounded-2xl hover:border-brand-blue/20 transition-all duration-300">
+                                    <span class="text-xs text-brand-blue font-mono font-bold block mb-1">Completed 2020</span>
+                                    <h4 class="text-lg font-bold text-white">Diploma in English</h4>
+                                    <p class="text-brand-blue font-medium text-sm mt-1">LPM Institute</p>
+                                    <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                                        Covered Beginner and Intermediate linguistic proficiencies. Focus on technical documentation reading, conversational proficiency, and system reporting.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Label (Right on large screens) -->
+                            <div class="hidden sm:block sm:w-1/2 pl-8 text-left sm:order-2">
+                                <h5 class="text-white font-bold text-lg">Communication Focus</h5>
+                                <p class="text-gray-400 text-sm mt-1">Essential global communication skills supporting easy agile workflows with multinational teams.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE CONTACT & SYSTEM STATUS -->
+        <section id="contact" class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 border-t border-white/5 bg-brand-dark/30">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    
+                    <!-- Contact Form & Status -->
+                    <div class="lg:col-span-7 space-y-8">
+                        <div>
+                            <h2 class="text-base text-brand-cyan font-semibold uppercase">Let's Connect</h2>
+                            <p class="text-3xl font-bold text-white mt-1">Initiate Project Dispatch</p>
+                            <p class="text-gray-400 mt-3 text-sm sm:text-base leading-relaxed">
+                                Ready to scale your localized internet networks or deploy robust, cross-platform mobile and web applications? Drop me a ping using the secured node router below.
+                            </p>
+                        </div>
+
+                        <!-- Contact Card Status Panel -->
+                        <div class="p-6 rounded-2xl bg-brand-card/80 border border-white/10 space-y-6">
+                            <div class="flex items-center justify-between pb-4 border-b border-white/5">
+                                <span class="text-xs font-mono text-gray-400 uppercase">Interactive Network Status</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-mono border border-emerald-500/20 uppercase">
+                                    Secure Socket Active
+                                </span>
+                            </div>
+
+                            <form
+                            id="formcont"
+                            @submit.prevent="
+                                
+                            " class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs text-gray-400 font-mono mb-1">NAME:</label>
+                                        <input type="text" name="name" required class="w-full bg-brand-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" placeholder="Enter your name">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 font-mono mb-1">EMAIL:</label>
+                                        <input type="email" name="email" autocomplete required class="w-full bg-brand-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" placeholder="your@email.com">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 font-mono mb-1">SUBJECT:</label>
+                                    <input type="text" name="subject" required class="w-full bg-brand-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" placeholder="Subject description">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 font-mono mb-1"> (MESSAGE):</label>
+                                    <textarea required name="message" rows="4" class="w-full bg-brand-dark/80 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" placeholder="Construct message detail..."></textarea>
+                                </div>
+                                 <div class="h-captcha" data-captcha="true"></div>
+                                <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-blue text-white font-bold hover:opacity-90 shadow-lg shadow-cyan-950/20 active:scale-95 transition-all duration-300">
+                                    <i class="fa-solid fa-paper-plane mr-2"></i> Send Message
+                                </button>
+                                <p id="successMsg" class="hidden text-brand-emerald text-xs font-mono text-center">
+                                    <i class="fa-solid fa-network-wired animate-pulse"></i> Handshake Complete! Transmission has been packaged locally. Let's start building!
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details / Info Nodes -->
+                    <div class="lg:col-span-5 space-y-6 lg:mt-16">
+                        
+                        <!-- Details Grid -->
+                        <div class="bg-brand-card/80 border border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
+                            <h3 class="text-white font-bold text-lg border-b border-white/5 pb-4">Direct Nodes</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Email Node -->
+                                <a href="mailto:algedawy89@gmail.com" class="flex items-center space-x-4 p-3 rounded-xl bg-white/5 hover:bg-brand-cyan/10 border border-white/5 hover:border-brand-cyan/20 transition-all duration-300 group">
+                                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 flex items-center justify-center text-brand-cyan group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-envelope text-lg"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <span class="block text-xs text-gray-500 uppercase tracking-widest font-mono">Email </span>
+                                        <span class="text-white font-medium text-sm sm:text-base break-words">algedawy89@gmail.com</span>
+                                    </div>
+                                </a>
+
+                                <!-- Phone Node -->
+                                <a href="tel:+967772024038" class="flex items-center space-x-4 p-3 rounded-xl bg-white/5 hover:bg-brand-blue/10 border border-white/5 hover:border-brand-blue/20 transition-all duration-300 group">
+                                    <div class="w-12 h-12 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-phone text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs text-gray-500 uppercase tracking-widest font-mono">Phone</span>
+                                        <span class="text-white font-medium text-sm sm:text-base">+967 772024038</span>
+                                    </div>
+                                </a>
+
+                                <!-- GitHub Node -->
+                                <a href="https://github.com/algedawy89" target="_blank" class="flex items-center space-x-4 p-3 rounded-xl bg-white/5 hover:bg-brand-emerald/10 border border-white/5 hover:border-brand-emerald/20 transition-all duration-300 group">
+                                    <div class="w-12 h-12 rounded-lg bg-brand-emerald/10 flex items-center justify-center text-brand-emerald group-hover:scale-110 transition-transform">
+                                        <i class="fa-brands fa-github text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs text-gray-500 uppercase tracking-widest font-mono">GitHub</span>
+                                        <span class="text-white font-medium text-sm sm:text-base">github.com / algedawy89</span>
+                                    </div>
+                                </a>
+
+                                <!-- WhatsApp QR link -->
+                                <a href="https://wa.me/967772024038" target="_blank" class="flex items-center space-x-4 p-3 rounded-xl bg-white/5 hover:bg-brand-emerald/10 border border-white/5 hover:border-brand-emerald/20 transition-all duration-300 group">
+                                    <div class="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 group-hover:scale-110 transition-transform">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs text-gray-500 uppercase tracking-widest font-mono"> WhatsApp</span>
+                                        <span class="text-white font-medium text-sm sm:text-base">Chat with Ibrahim</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Info Quote Card -->
+                        <div class="bg-gradient-to-tr from-brand-cyan/10 to-brand-blue/10 border border-brand-cyan/20 p-6 rounded-2xl">
+                            <span class="text-brand-cyan text-xs font-mono block uppercase tracking-widest mb-1">Engineering Statement</span>
+                            <p class="text-sm text-gray-300 italic leading-relaxed">
+                                "Optimizing software logic and hardening local network boundaries are two sides of the same coin: reliable engineering."
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto bg-brand-dark border-t border-white/5 py-8 px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-500 space-y-3">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-left">
+                    <span class="text-white font-bold text-sm block">Ibrahim Al-jeddawi</span>
+                    <span class="text-gray-400 text-xs">Software Engineer & Network Administrator</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://github.com/algedawy89" target="_blank" class="hover:text-brand-cyan transition-colors duration-200"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="mailto:algedawy89@gmail.com" class="hover:text-brand-cyan transition-colors duration-200"><i class="fa-solid fa-envelope text-base"></i></a>
+                    <a href="tel:+967772024038" class="hover:text-brand-cyan transition-colors duration-200"><i class="fa-solid fa-phone text-base"></i></a>
+                </div>
+            </div>
+            <div class="text-gray-600 font-mono pt-4 border-t border-white/5">
+                &copy; 2025 Ibrahim Al-jeddawi. All rights reserved. Delivered from Ibb, Yemen.
+            </div>
+        </footer>
+
+        <!-- INTERACTIVE MODAL FOR ARCHITECTURE DETAIL -->
+        <div x-show="selectedProject" 
+        x-data="{ currentImg: 0 }"
+             x-init="$watch('selectedProject', value => { if(value) currentImg = 0 })"
+             class="fixed inset-0  z-50 flex items-center justify-center p-4 bg-brand-dark/80 backdrop-blur-md" 
+             style="display: none;">
+            
+            <div @click.away="selectedProject = null" 
+                 class="bg-brand-card/95 border border-white/10 rounded-3xl max-w-6xl w-full max-h-[95vh] flex flex-col overflow-y-auto shadow-2xl relative text-start ring-1 ring-white/10"
+                
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                
+                <!-- Modal Head -->
+                <div class="bg-gradient-to-r from-[#0b111e] to-[#121c30] p-6 sm:p-8 border-b border-white/5 relative">
+                    <button @click="selectedProject = null" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                    <span class="text-xs font-mono text-brand-cyan uppercase tracking-wider block mb-1" x-text="selectedProject?.subtitle"></span>
+                    <h3 class="text-2xl font-bold text-white" x-text="selectedProject?.title"></h3>
+                </div>
+
+
+                  <div class="flex-1 overflow-y-auto p-6 lg:p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                        
+                        <!-- Right Column (RTL): Details -->
+                        <div class="lg:col-span-5 space-y-8 order-2 lg:order-1">
+                            <div>
+                                <h4 class="flex items-center gap-2 text-sm font-bold text-white mb-3">
+                                    <i class="fa-solid fa-circle-info text-brand-cyan"></i>  over view:
+                                </h4>
+                                <p class="text-gray-300 text-sm sm:text-base leading-relaxed text-left" x-text="selectedProject?.desc"></p>
+                            </div>
+
+                            <div>
+                                <h4 class="flex items-center gap-2 text-sm font-bold text-white mb-3">
+                                    <i class="fa-solid fa-microchip text-brand-blue"></i>  INTEGRATED_MODULES (TECH STACK):
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <template x-for="techItem in selectedProject?.tech" :key="techItem">
+                                        <span class="px-3 py-1.5 bg-brand-dark border border-white/10 shadow-inner rounded-lg text-xs font-mono text-brand-cyan transition-all hover:border-brand-cyan/50" x-text="techItem"></span>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="p-5 bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/20 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+                                <div class="absolute top-0 right-0 w-20 h-20 bg-emerald-500/20 blur-2xl rounded-full group-hover:bg-emerald-500/30 transition-all"></div>
+                                <h4 class="text-sm font-bold text-emerald-400 mb-2 relative z-10 flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-line"></i> DELIVERED_IMPACT :
+                                </h4>
+                                <p class="text-sm sm:text-base text-emerald-100/90 text-left relative z-10 leading-relaxed" x-text="selectedProject?.impact"></p>
+                            </div>
+                        </div>
+
+                        <!-- Left Column (RTL): Image Gallery -->
+                        <div class="lg:col-span-7 space-y-4 order-1 lg:order-2">
+                            <!-- Main Viewport -->
+                            <div class="relative w-full aspect-video sm:aspect-[4/3] lg:aspect-[16/9] bg-[#030712] rounded-2xl border border-white/5 overflow-hidden group flex items-center justify-center shadow-inner">
+                                
+                                <template x-if="selectedProject?.images && selectedProject.images.length > 0">
+                                    <img :src="selectedProject.images[currentImg]" class="w-full h-full object-contain p-2 transition-opacity duration-300" alt="صورة المشروع">
+                                </template>
+                                
+                                <template x-if="!selectedProject?.images || selectedProject.images.length === 0">
+                                    <div class="text-center">
+                                        <i class="fa-regular fa-image text-4xl text-gray-600 mb-2"></i>
+                                        <p class="text-gray-500 font-mono text-sm">Images will Uploads Soon...</p>
+                                    </div>
+                                </template>
+
+                                <!-- Navigation Controls -->
+                                <button x-show="selectedProject?.images?.length > 1" 
+                                        @click="currentImg = (currentImg - 1 + selectedProject.images.length) % selectedProject.images.length" 
+                                        class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-dark/80 border border-white/10 text-white hover:bg-brand-cyan hover:text-white flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 shadow-lg z-10 focus:outline-none">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                                <button x-show="selectedProject?.images?.length > 1" 
+                                        @click="currentImg = (currentImg + 1) % selectedProject.images.length" 
+                                        class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-dark/80 border border-white/10 text-white hover:bg-brand-cyan hover:text-white flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 shadow-lg z-10 focus:outline-none">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+
+                                <!-- Image Counter -->
+                                <div x-show="selectedProject?.images?.length > 0" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-brand-dark/90 border border-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-mono text-white/90 z-10 shadow-lg flex items-center gap-2">
+                                    <i class="fa-regular fa-images text-brand-cyan"></i>
+                                    <span x-text="currentImg + 1"></span> / <span x-text="selectedProject.images.length"></span>
+                                </div>
+                            </div>
+
+                            <!-- Thumbnails Strip -->
+                            <div x-show="selectedProject?.imgdesc?.length > 1" class="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+                                <template x-for="(img, index) in selectedProject?.imgdesc" :key="index">
+                                    <button @click="currentImg = index" 
+                                            class="relative h-16 sm:h-20 md:h-24 aspect-video rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-brand-dark/50 focus:outline-none"
+                                            :class="currentImg === index ? 'border-brand-cyan shadow-[0_0_15px_rgba(6,182,212,0.4)] opacity-100' : 'border-white/5 opacity-40 hover:opacity-100 hover:border-white/20'">
+                                        <p x-text="index + 1" class="w-full h-full object-cover" ></p>
+                                        <div class="absolute inset-0 bg-brand-cyan/20 pointer-events-none"></div>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+              
+               
+                <!-- Modal Foot -->
+                <div class="bg-[#0b101b] px-6 py-4 flex justify-start border-t border-white/5">
+                    <button @click="selectedProject = null" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg text-sm font-semibold transition-all">
+                        Terminate Session
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT FOR TYPING EFFECT & INTERACTIVE CANVAS NETWORK VISUALIZER -->
+  
+  <script>
+    const form = document.getElementById('formcont');
+const submitBtn = form.querySelector('button[type="submit"]');
+
+                                const successMsg = document.getElementById('successMsg');
+
+
+// const button = document.getElementById('submitBtn');
+                                
+                           
+
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+
+    // submitBtn.disabled = true;
+    
+    
+    const formData = new FormData(form);
+    formData.append("access_key", "86dd9ba5-d671-4795-8e48-ee9ee6fed81f");
+    
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class=\'fa-solid fa-circle-notch animate-spin\'></i> Sending...';
+
+    // submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // alert("Success! Your message has been sent.");
+
+            setTimeout(() => {
+                
+                submitBtn.innerHTML = '<i class=\'fa-solid fa-check\'></i> Success! Your message has been sent.';
+                submitBtn.classList.remove('bg-gradient-to-r', 'from-brand-cyan', 'to-brand-blue');
+                submitBtn.classList.add('bg-brand-emerald');
+                successMsg.classList.remove('hidden');
+            
+    form.reset();
+            }, 1500);
+               
+        } else {
+
+
+            setTimeout(() => {
+                
+                submitBtn.innerHTML = '<i class=\'fa-solid fa-check\'></i> Error! Your message not sent.'+data.message;
+                                        submitBtn.classList.remove('bg-gradient-to-r', 'from-brand-cyan', 'to-brand-blue');
+                                        submitBtn.classList.add('bg-red-900');
+                                        successMsg.classList.remove('hidden');
+            }, 1500);
+            // alert("Error: " + data.message);
+        }
+
+    } catch (error) {
+            submitBtn.innerHTML = '<i class=\'fa-solid fa-check\'></i> Error! Your message not sent.';
+
+        // alert("Something went wrong. Please try again.");
+    } finally {
+
+        setTimeout(()=>{
+
+            submitBtn.innerHTML = originalText;
+                submitBtn.classList.add('bg-gradient-to-r', 'from-brand-cyan', 'to-brand-blue');
+
+            submitBtn.disabled = false;
+        },5000)
+    }
+});
+  </script>
+  
+  <script>
+        // TYPEWRITER EFFECT
+        const titles = [
+            "Software Developer", 
+            "Network Administrator", 
+            "Full-Stack Web Architect", 
+            "MikroTik RouterOS Specialist",
+            "Cross-Platform Flutter Engineer"
+        ];
+        let titleIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const speed = 100;
+        const deleteSpeed = 50;
+        const waitTime = 2000;
+        const el = document.getElementById("typewriter");
+
+        function type() {
+            const currentTitle = titles[titleIdx];
+            if (isDeleting) {
+                el.innerHTML = currentTitle.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                el.innerHTML = currentTitle.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            if (!isDeleting && charIdx === currentTitle.length) {
+                isDeleting = true;
+                setTimeout(type, waitTime);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                titleIdx = (titleIdx + 1) % titles.length;
+                setTimeout(type, 500);
+            } else {
+                setTimeout(type, isDeleting ? deleteSpeed : speed);
+            }
+        }
+
+        // STARTUP ROUTINES ON DOM LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            // Start typewriter
+            type();
+
+            // Run Canvas Setup
+            initCanvas();
+        });
+
+        // INTERACTIVE CANVAS (Interactive Network Nodes)
+        function initCanvas() {
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            const particleCount = Math.min(Math.floor(width / 15), 80);
+            const connectionDistance = 110;
+            const mouse = { x: null, y: null, radius: 150 };
+
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2 + 1;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Bounce off boundaries
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                    // Mouse Interaction
+                    if (mouse.x && mouse.y) {
+                        let dx = this.x - mouse.x;
+                        let dy = this.y - mouse.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < mouse.radius) {
+                            const force = (mouse.radius - dist) / mouse.radius;
+                            this.x += (dx / dist) * force * 1.5;
+                            this.y += (dy / dist) * force * 1.5;
+                        }
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(6, 182, 212, 0.5)';
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw lines between particles
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < connectionDistance) {
+                            // Opacity based on proximity
+                            const opacity = (1 - (distance / connectionDistance)) * 0.15;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
